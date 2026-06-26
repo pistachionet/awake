@@ -58,18 +58,18 @@ Awake is useful whenever work should keep running after you close the lid:
 
 ## How It Works
 
-Awake uses the macOS setting that disables lid-close sleep:
+Awake toggles macOS' `SleepDisabled` power setting with `pmset`:
 
 ```sh
 pmset -a disablesleep 1
 ```
 
-That is the main difference from `caffeinate`: `caffeinate` can keep a Mac awake
-while the lid is open, but it does not keep a MacBook awake after the lid closes.
-Awake is for the lid-closed case.
+That is the main difference from `caffeinate`: `caffeinate` creates temporary
+sleep-prevention assertions, while Awake changes the system power setting that
+controls lid-close sleep. Awake is for the lid-closed case.
 
-Because `pmset -a disablesleep` requires root, Awake asks for one authenticated
-admin grant. That grant writes a narrow sudoers rule at:
+Because `pmset` must run as root to change power settings, Awake asks for one
+authenticated admin grant. That grant writes a narrow sudoers rule at:
 
 ```sh
 /etc/sudoers.d/awake
