@@ -15,10 +15,11 @@ BUNDLE_ID="io.github.pistachionet.awake"
 SRC="Sources/Awake/AwakeApp.swift"
 OUT="build"
 BUNDLE="$OUT/$APP.app"
+ICON="Resources/AppIcon.icns"
 FRAMEWORKS=(-framework SwiftUI -framework AppKit -framework ServiceManagement)
 
 rm -rf "$OUT"
-mkdir -p "$BUNDLE/Contents/MacOS"
+mkdir -p "$BUNDLE/Contents/MacOS" "$BUNDLE/Contents/Resources"
 
 echo "Compiling universal Awake $VERSION..."
 swiftc -O -parse-as-library "$SRC" "${FRAMEWORKS[@]}" -target arm64-apple-macos13.0  -o "$OUT/$APP-arm64"
@@ -36,6 +37,7 @@ cat > "$BUNDLE/Contents/Info.plist" <<EOF
   <key>CFBundleIdentifier</key><string>$BUNDLE_ID</string>
   <key>CFBundleName</key><string>$APP</string>
   <key>CFBundleDisplayName</key><string>$APP</string>
+  <key>CFBundleIconFile</key><string>AppIcon</string>
   <key>CFBundlePackageType</key><string>APPL</string>
   <key>CFBundleShortVersionString</key><string>$VERSION</string>
   <key>CFBundleVersion</key><string>$VERSION</string>
@@ -45,6 +47,10 @@ cat > "$BUNDLE/Contents/Info.plist" <<EOF
 </dict>
 </plist>
 EOF
+
+if [ -f "$ICON" ]; then
+  cp "$ICON" "$BUNDLE/Contents/Resources/AppIcon.icns"
+fi
 
 echo "Built $BUNDLE  (arches: $(lipo -archs "$BUNDLE/Contents/MacOS/$APP"))"
 echo "Local run:  open $BUNDLE"

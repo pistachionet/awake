@@ -11,6 +11,10 @@ Awake is a tiny macOS menu bar app that keeps your MacBook awake while the lid i
 closed. It is built for long-running terminal jobs, downloads, syncs, local
 servers, and coding agent sessions that should not stop when you step away.
 
+<p align="center">
+  <img src="docs/images/awake-on.png" alt="Awake enabled menu" width="420">
+</p>
+
 ## Install
 
 ```sh
@@ -27,6 +31,29 @@ and choose **Grant permission (one-time)...**.
 3. Choose **Grant permission (one-time)...** and enter your Mac password.
 4. Turn on **Keep awake with lid closed**.
 5. Close the lid. Your work keeps running.
+
+## Screenshots
+
+| First launch | Permission installed |
+| --- | --- |
+| ![Awake grant permission menu](docs/images/awake-grant-permission.png) | ![Awake remove permission menu](docs/images/awake-remove-permission.png) |
+
+| Sleep normal | Lid-close sleep off |
+| --- | --- |
+| ![Awake off menu](docs/images/awake-off.png) | ![Awake on menu](docs/images/awake-on.png) |
+
+## Use Cases
+
+Awake is useful whenever work should keep running after you close the lid:
+
+- Running Claude Code, OpenCode, Cursor agents, or other coding agents.
+- Keeping long terminal jobs alive.
+- Running local dev servers while stepping away.
+- Letting package installs, builds, scripts, or migrations finish.
+- Continuing downloads, uploads, cloud syncs, and backups.
+- Keeping SSH sessions, Docker jobs, and automation alive.
+- Listening to music with the lid closed.
+- Any task that normally requires leaving your MacBook open.
 
 ## How It Works
 
@@ -124,11 +151,8 @@ Official `homebrew-cask` submission has a notability gate. A brand-new project
 usually starts from its own tap first, then applies to the official cask repo
 after enough usage.
 
-## Branding
+## Icon
 
-Awake needs an app icon before a broader launch. Best direction: a simple open eye
-inside a closed laptop silhouette. It should read clearly at small sizes, work in
-light and dark mode, and be exportable as `AppIcon.icns` from a 1024x1024 source.
-
-Alternative concepts: a coffee cup with a closed laptop, an eye with a crescent
-moon, or a crossed-out sleep glyph.
+Awake uses a dark rounded-square icon with a white coffee cup and steam mark. It
+matches the menu bar cup symbol while still reading clearly as a standalone app
+icon in Finder, Spotlight, and Homebrew-installed builds.
