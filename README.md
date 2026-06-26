@@ -1,89 +1,134 @@
 # Awake
 
-A tiny macOS menu bar app that lets you close your MacBook lid without it going
-to sleep, so downloads, syncs, and agent sessions keep running. One click in the
-menu bar toggles it on or off.
+Close the lid. Keep the work running.
 
-It works by flipping the kernel `SleepDisabled` flag via `pmset -a disablesleep`,
-the only mechanism that survives a lid close (`caffeinate` and IOKit power
-assertions do not). That requires root, handled by a one time, tightly scoped
-permission grant (see below).
+[![Release](https://img.shields.io/github/v/release/pistachionet/awake?sort=semver)](https://github.com/pistachionet/awake/releases)
+[![macOS](https://img.shields.io/badge/macOS-13%2B-blue)](#install)
+[![Homebrew](https://img.shields.io/badge/Homebrew-tap-orange)](https://github.com/pistachionet/homebrew-awake)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## Install via Homebrew
+Awake is a tiny macOS menu bar app that keeps your MacBook awake while the lid is
+closed. It is built for long-running terminal jobs, downloads, syncs, local
+servers, and coding agent sessions that should not stop when you step away.
+
+## Install
 
 ```sh
-brew tap pistachionet/awake
-brew install --cask awake
+brew install --cask pistachionet/awake/awake
 ```
 
-Then launch Awake from Spotlight, click the cup icon in the menu bar, and
-choose "Grant permission (one-time)...".
+Then launch Awake from Spotlight or Applications, click the menu bar cup icon,
+and choose **Grant permission (one-time)...**.
 
-## Just want it on your own Mac?
+## Quick Start
 
-You need none of the release machinery, no Apple account, no notarization:
+1. Launch Awake.
+2. Click the cup icon in the menu bar.
+3. Choose **Grant permission (one-time)...** and enter your Mac password.
+4. Turn on **Keep awake with lid closed**.
+5. Close the lid. Your work keeps running.
+
+## How It Works
+
+Awake uses macOS' real lid-sleep switch:
 
 ```sh
+pmset -a disablesleep 1
+```
+
+That kernel flag is the mechanism that survives closing a MacBook lid.
+`caffeinate` and normal IOKit power assertions can keep an open Mac awake, but
+they do not reliably override lid-close sleep.
+
+Because `pmset -a disablesleep` requires root, Awake asks for one authenticated
+admin grant. That grant writes a narrow sudoers rule at:
+
+```sh
+/etc/sudoers.d/awake
+```
+
+The rule allows exactly two commands without a password:
+
+```sh
+/usr/bin/pmset -a disablesleep 1
+/usr/bin/pmset -a disablesleep 0
+```
+
+Nothing else gets elevated. Awake does not ship with root privileges.
+
+## Menu Options
+
+- **Keep awake with lid closed**: toggles lid-close sleep off or on.
+- **Launch at login**: starts Awake automatically when you sign in.
+- **Grant permission (one-time)...**: installs the narrow sudoers rule.
+- **Remove permission...**: turns sleep back on and deletes the sudoers rule.
+- **Quit Awake**: restores normal sleep before quitting.
+
+## Safety Notes
+
+- Battery drains faster with lid-close sleep disabled.
+- The internal display may stay on; turn brightness down before closing the lid.
+- Avoid long heavy CPU or GPU workloads while fully closed, especially in a bag.
+- macOS can still force sleep at critically low battery.
+
+## Uninstall
+
+```sh
+brew uninstall --zap awake
+```
+
+`--zap` removes the sudoers rule at `/etc/sudoers.d/awake` in addition to the app.
+
+## Build From Source
+
+```sh
+git clone https://github.com/pistachionet/awake.git
+cd awake
 bash scripts/build.sh
 open build/Awake.app
 ```
 
-Right-click then Open the first time if Gatekeeper objects.
+Right-click and choose **Open** the first time if Gatekeeper blocks the local
+unsigned build.
 
-## Shipping it via Homebrew: the real requirements
+## Release Process
 
-Two gates, both worth knowing before you invest time.
+Maintainers cut releases by pushing a version tag:
 
-1. Signing and notarization are mandatory. As of Homebrew 5.0.0, casks must be
-   codesigned and notarized; unsigned casks are being audited out (removal by
-   Sept 2026), and unsigned apps will not launch under Gatekeeper on Apple
-   Silicon. You need an Apple Developer ID (99 USD per year). `scripts/package.sh`
-   and the GitHub Action do the signing, notarizing, and stapling.
-2. Official `homebrew-cask` has a notability gate. A self submitted cask (you
-   submitting your own app) needs the repo to clear roughly 225 stars, 90 forks,
-   and 90 watchers. A brand new project will not qualify on day one.
-
-The path: ship from your own tap now (repo `homebrew-awake` with
-`Casks/awake.rb`); users `brew install --cask awake` immediately. Later, once the
-repo is notable, open a PR adding the cask to `Homebrew/homebrew-cask`.
-
-## Cutting a release
-
-1. Tag it: `git tag v1.0.1 && git push --tags`.
-2. The GitHub Action builds a universal binary, signs, notarizes, staples, and
-   attaches `Awake-1.0.1.zip` to the release. Required secrets are listed at
-   the bottom of `.github/workflows/release.yml`.
-3. Copy the printed `sha256` and the new `version` into `Casks/awake.rb` in the
-   tap repo, then push.
-
-Local alternative: `bash scripts/build.sh 1.0.1 && bash scripts/package.sh 1.0.1`
-produces the same zip and prints the `sha256`.
-
-## How the permission works
-
-Awake never ships with elevated rights. "Grant permission" runs one
-authenticated step that writes `/etc/sudoers.d/awake` allowing exactly two
-commands without a password, nothing else:
-
-```
-<your-mac-username> ALL=(root) NOPASSWD: /usr/bin/pmset -a disablesleep 1, /usr/bin/pmset -a disablesleep 0
+```sh
+git tag v1.0.1
+git push --tags
 ```
 
-"Remove permission..." in the menu (or `brew uninstall --zap awake`) deletes it.
+The GitHub Action builds a universal binary, signs it with Developer ID,
+notarizes it with Apple, staples the ticket, creates `Awake-1.0.1.zip`, and
+publishes a GitHub release. Copy the printed `sha256` into
+`homebrew-awake/Casks/awake.rb`, then push the tap.
 
-## Good to know
+## Homebrew Notes
 
-- Battery: with the lid shut the internal display can stay lit and drain power, so
-  turn brightness down before you close it.
-- Heat: fine for light unattended work; avoid sustained heavy CPU with the lid
-  fully closed.
-- Backstop: at critically low battery macOS force sleeps regardless; the flag
-  cannot override that.
+Awake ships from a personal tap today:
 
-## Polish before a public launch
+```sh
+brew install --cask pistachionet/awake/awake
+```
 
-- Add an `AppIcon.icns` so Finder shows a real icon (the menu bar already uses an
-  SF Symbol).
-- The LICENSE is MIT.
-- Optional: an auto-off timer or battery floor cutoff. See the apps Sleepless and
-  Wedge for prior art on the same mechanism.
+The shorter command below only works after either trusting the tap locally or if
+Awake is later accepted into the official Homebrew cask repository:
+
+```sh
+brew install --cask awake
+```
+
+Official `homebrew-cask` submission has a notability gate. A brand-new project
+usually starts from its own tap first, then applies to the official cask repo
+after enough usage.
+
+## Branding
+
+Awake needs an app icon before a broader launch. Best direction: a simple open eye
+inside a closed laptop silhouette. It should read clearly at small sizes, work in
+light and dark mode, and be exportable as `AppIcon.icns` from a 1024x1024 source.
+
+Alternative concepts: a coffee cup with a closed laptop, an eye with a crescent
+moon, or a crossed-out sleep glyph.
