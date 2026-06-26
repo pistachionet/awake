@@ -2,7 +2,7 @@ import SwiftUI
 import AppKit
 import ServiceManagement
 
-// LidAwake: close the MacBook lid without your agents/processes stopping.
+// Awake: close the MacBook lid without your agents/processes stopping.
 //
 // Mechanism: `sudo pmset -a disablesleep <0|1>` sets the kernel SleepDisabled
 // flag, the only mechanism that survives a lid close (caffeinate and IOKit power
@@ -10,7 +10,7 @@ import ServiceManagement
 // installs a sudoers rule scoped to exactly those two pmset commands.
 
 @main
-struct LidAwakeApp: App {
+struct AwakeApp: App {
     @StateObject private var controller = SleepController()
 
     var body: some Scene {
@@ -37,8 +37,8 @@ struct LidAwakeApp: App {
             }
 
             Divider()
-            Text("LidAwake \(controller.version)")
-            Button("Quit LidAwake") {
+            Text("Awake \(controller.version)")
+            Button("Quit Awake") {
                 controller.setEnabled(false)        // restore normal sleep on quit
                 NSApp.terminate(nil)
             }
@@ -95,16 +95,16 @@ final class SleepController: ObservableObject {
     func installPermission() {
         let rule = "\(NSUserName()) ALL=(root) NOPASSWD: "
                  + "\(pmset) -a disablesleep 1, \(pmset) -a disablesleep 0"
-        let shell = "echo '\(rule)' > /etc/sudoers.d/lidawake && "
-                  + "chmod 0440 /etc/sudoers.d/lidawake && "
-                  + "/usr/sbin/visudo -cf /etc/sudoers.d/lidawake"
+        let shell = "echo '\(rule)' > /etc/sudoers.d/awake && "
+                  + "chmod 0440 /etc/sudoers.d/awake && "
+                  + "/usr/sbin/visudo -cf /etc/sudoers.d/awake"
         runAsAdmin(shell)
         refresh()
     }
 
     func removePermission() {
         _ = runSudoPmset("0")                       // turn off while the rule still exists
-        runAsAdmin("rm -f /etc/sudoers.d/lidawake")
+        runAsAdmin("rm -f /etc/sudoers.d/awake")
         refresh()
     }
 

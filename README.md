@@ -1,4 +1,4 @@
-# LidAwake
+# Awake
 
 A tiny macOS menu bar app that lets you close your MacBook lid without it going
 to sleep, so downloads, syncs, and agent sessions keep running. One click in the
@@ -9,14 +9,14 @@ the only mechanism that survives a lid close (`caffeinate` and IOKit power
 assertions do not). That requires root, handled by a one time, tightly scoped
 permission grant (see below).
 
-## Install via Homebrew (your tap)
+## Install via Homebrew
 
 ```sh
-brew tap pistachionet/lid-awake
-brew install --cask lidawake
+brew tap pistachionet/awake
+brew install --cask awake
 ```
 
-Then launch LidAwake from Spotlight, click the cup icon in the menu bar, and
+Then launch Awake from Spotlight, click the cup icon in the menu bar, and
 choose "Grant permission (one-time)...".
 
 ## Just want it on your own Mac?
@@ -25,7 +25,7 @@ You need none of the release machinery, no Apple account, no notarization:
 
 ```sh
 bash scripts/build.sh
-open build/LidAwake.app
+open build/Awake.app
 ```
 
 Right-click then Open the first time if Gatekeeper objects.
@@ -43,17 +43,17 @@ Two gates, both worth knowing before you invest time.
    submitting your own app) needs the repo to clear roughly 225 stars, 90 forks,
    and 90 watchers. A brand new project will not qualify on day one.
 
-The path: ship from your own tap now (repo `homebrew-lidawake` with
-`Casks/lidawake.rb`); users `brew install --cask` immediately. Later, once the
+The path: ship from your own tap now (repo `homebrew-awake` with
+`Casks/awake.rb`); users `brew install --cask awake` immediately. Later, once the
 repo is notable, open a PR adding the cask to `Homebrew/homebrew-cask`.
 
 ## Cutting a release
 
 1. Tag it: `git tag v1.0.1 && git push --tags`.
 2. The GitHub Action builds a universal binary, signs, notarizes, staples, and
-   attaches `LidAwake-1.0.1.zip` to the release. Required secrets are listed at
+   attaches `Awake-1.0.1.zip` to the release. Required secrets are listed at
    the bottom of `.github/workflows/release.yml`.
-3. Copy the printed `sha256` and the new `version` into `Casks/lidawake.rb` in the
+3. Copy the printed `sha256` and the new `version` into `Casks/awake.rb` in the
    tap repo, then push.
 
 Local alternative: `bash scripts/build.sh 1.0.1 && bash scripts/package.sh 1.0.1`
@@ -61,15 +61,15 @@ produces the same zip and prints the `sha256`.
 
 ## How the permission works
 
-LidAwake never ships with elevated rights. "Grant permission" runs one
-authenticated step that writes `/etc/sudoers.d/lidawake` allowing exactly two
+Awake never ships with elevated rights. "Grant permission" runs one
+authenticated step that writes `/etc/sudoers.d/awake` allowing exactly two
 commands without a password, nothing else:
 
 ```
 <your-mac-username> ALL=(root) NOPASSWD: /usr/bin/pmset -a disablesleep 1, /usr/bin/pmset -a disablesleep 0
 ```
 
-"Remove permission..." in the menu (or `brew uninstall --zap lidawake`) deletes it.
+"Remove permission..." in the menu (or `brew uninstall --zap awake`) deletes it.
 
 ## Good to know
 

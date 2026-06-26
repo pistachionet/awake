@@ -53,7 +53,7 @@ jobs:
       - name: Publish GitHub release
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/LidAwake-${{ steps.v.outputs.version }}.zip
+          files: dist/Awake-${{ steps.v.outputs.version }}.zip
           generate_release_notes: true
 
 # Required repo secrets:
@@ -66,4 +66,4 @@ jobs:
 #   DEV_ID_APP         "Developer ID Application: Your Name (TEAMID)"
 #
 # After the release publishes, copy the printed sha256 into the tap's
-# Casks/lidawake.rb and push it to github.com/pistachionet/homebrew-lidawake.
+# Casks/awake.rb and push it to github.com/pistachionet/homebrew-awake.

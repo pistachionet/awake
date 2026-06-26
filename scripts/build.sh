@@ -1,18 +1,18 @@
 #!/bin/bash
-# Build LidAwake.app (universal: Apple Silicon and Intel). No Xcode project
+# Build Awake.app (universal: Apple Silicon and Intel). No Xcode project
 # needed, just the Swift toolchain (`xcode-select --install`).
 #
 #   bash scripts/build.sh [version]
-#   open build/LidAwake.app
+#   open build/Awake.app
 #
 # For DISTRIBUTION you must then sign and notarize: see scripts/package.sh.
 
 set -euo pipefail
 
 VERSION="${1:-1.0.0}"
-APP="LidAwake"
-BUNDLE_ID="io.github.pistachionet.lidawake"        # resolved by the handoff substitution
-SRC="Sources/LidAwake/LidAwakeApp.swift"
+APP="Awake"
+BUNDLE_ID="io.github.pistachionet.awake"
+SRC="Sources/Awake/AwakeApp.swift"
 OUT="build"
 BUNDLE="$OUT/$APP.app"
 FRAMEWORKS=(-framework SwiftUI -framework AppKit -framework ServiceManagement)
@@ -20,7 +20,7 @@ FRAMEWORKS=(-framework SwiftUI -framework AppKit -framework ServiceManagement)
 rm -rf "$OUT"
 mkdir -p "$BUNDLE/Contents/MacOS"
 
-echo "Compiling universal LidAwake $VERSION..."
+echo "Compiling universal Awake $VERSION..."
 swiftc -O -parse-as-library "$SRC" "${FRAMEWORKS[@]}" -target arm64-apple-macos13.0  -o "$OUT/$APP-arm64"
 swiftc -O -parse-as-library "$SRC" "${FRAMEWORKS[@]}" -target x86_64-apple-macos13.0 -o "$OUT/$APP-x86_64"
 lipo -create -output "$BUNDLE/Contents/MacOS/$APP" "$OUT/$APP-arm64" "$OUT/$APP-x86_64"

@@ -1,6 +1,6 @@
 #!/bin/bash
 # Sign (Developer ID and hardened runtime), notarize, staple, and zip
-# LidAwake.app into a distributable artifact, then print the sha256 for the cask.
+# Awake.app into a distributable artifact, then print the sha256 for the cask.
 #
 #   bash scripts/build.sh   1.0.0
 #   bash scripts/package.sh 1.0.0
@@ -18,7 +18,7 @@
 set -euo pipefail
 
 VERSION="${1:-1.0.0}"
-APP="LidAwake"
+APP="Awake"
 BUNDLE="build/$APP.app"
 DIST="dist"
 ZIP="$DIST/$APP-$VERSION.zip"
@@ -58,5 +58,5 @@ Done: $ZIP
 
 Next:
   1. Upload $ZIP to a GitHub release tagged v$VERSION.
-  2. Set version "$VERSION" and sha256 "$SHA" in the tap's Casks/lidawake.rb, push.
+  2. Set version "$VERSION" and sha256 "$SHA" in the tap's Casks/awake.rb, push.
 EOF
