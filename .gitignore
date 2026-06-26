@@ -1,0 +1,12 @@
+# Build artifacts
+build/
+dist/
+
+# Signing material: never commit
+*.p12
+cert.p12
+*.cer
+*.provisionprofile
+
+# macOS
+.DS_Store
