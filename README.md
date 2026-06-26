@@ -18,6 +18,7 @@ servers, and coding agent sessions that should not stop when you step away.
 ## Install
 
 ```sh
+brew tap pistachionet/awake
 brew install --cask pistachionet/awake/awake
 ```
 
@@ -137,11 +138,13 @@ publishes a GitHub release. Copy the printed `sha256` into
 Awake ships from a personal tap today:
 
 ```sh
+brew tap pistachionet/awake
 brew install --cask pistachionet/awake/awake
 ```
 
-The shorter command below only works after either trusting the tap locally or if
-Awake is later accepted into the official Homebrew cask repository:
+The fully-qualified cask name avoids Homebrew's third-party cask trust warning.
+The shorter command below only works after trusting the tap locally or if Awake is
+later accepted into the official Homebrew cask repository:
 
 ```sh
 brew install --cask awake
