@@ -22,7 +22,6 @@ servers, and coding agent sessions that should not stop when you step away.
 ## Install
 
 ```sh
-brew tap pistachionet/awake
 brew install --cask pistachionet/awake/awake
 ```
 
