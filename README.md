@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/images/appicon.png" alt="Awake app icon" width="128">
+</p>
+
 # Awake
 
 Close the lid. Keep the work running.
