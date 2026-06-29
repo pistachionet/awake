@@ -96,6 +96,19 @@
   .meta .sep{opacity:.4; margin:0 8px}
   .meta span{white-space:nowrap}
 
+  .demo{
+    border-radius:14px; overflow:hidden;
+    border:1px solid var(--line);
+    box-shadow:0 12px 40px rgba(0,0,0,.4);
+    margin-bottom:40px;
+  }
+  .demo img{display:block; width:100%; height:auto}
+
+  .appicon-bottom{
+    margin-top:48px;
+    width:56px; height:56px; border-radius:12px;
+  }
+
   a{color:inherit}
   :focus-visible{outline:2px solid var(--amber); outline-offset:3px; border-radius:6px}
 
@@ -112,6 +125,10 @@
     <h1>Close the lid.<br>Keep work running.</h1>
 
     <p class="sub">A tiny macOS menu bar app that keeps your Mac awake while the lid is closed. Built for terminals, downloads, syncs, coding agents, and music.</p>
+
+    <div class="demo">
+      <img src="images/awake-demo.gif" alt="Awake demo" loading="lazy">
+    </div>
 
     <div class="cmd">
       <span class="prompt" aria-hidden="true">$</span>
@@ -130,6 +147,8 @@
     <div class="meta">
       <span>macOS 13+</span><span class="sep">&middot;</span><span>Apple Silicon &amp; Intel</span><span class="sep">&middot;</span><span>Open source (MIT)</span>
     </div>
+
+    <img class="appicon-bottom" src="images/appicon.png" alt="Awake app icon">
   </main>
 
   <script>
