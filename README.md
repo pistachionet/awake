@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="docs/images/appicon.png" alt="Awake app icon" width="128">
-</p>
-
 # Awake
 
 Close the lid. Keep the work running.
@@ -16,7 +12,7 @@ closed. It is built for long-running terminal jobs, downloads, syncs, local
 servers, and coding agent sessions that should not stop when you step away.
 
 <p align="center">
-  <img src="docs/images/awake-on.png" alt="Awake enabled menu" width="420">
+  <img src="docs/images/awake-demo.gif" alt="Awake demo" width="420">
 </p>
 
 ## Install
@@ -121,3 +117,7 @@ open build/Awake.app
 
 Right-click and choose **Open** the first time if Gatekeeper blocks the local
 unsigned build.
+
+<p align="center">
+  <img src="docs/images/appicon.png" alt="Awake app icon" width="80">
+</p>
