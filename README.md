@@ -12,7 +12,7 @@ closed. It is built for long-running terminal jobs, downloads, syncs, local
 servers, and coding agent sessions that should not stop when you step away.
 
 <p align="center">
-  <img src="docs/images/awake-demo.gif" alt="Awake demo" width="420">
+  <img src="docs/images/awake-demo.gif" alt="Awake demo" width="560">
 </p>
 
 ## Install
@@ -31,16 +31,6 @@ and choose **Grant permission (one-time)...**.
 3. Choose **Grant permission (one-time)...** and enter your Mac password.
 4. Turn on **Keep awake with lid closed**.
 5. Close the lid. Your work keeps running.
-
-## Screenshots
-
-| First launch | Permission installed |
-| --- | --- |
-| ![Awake grant permission menu](docs/images/awake-grant-permission.png) | ![Awake remove permission menu](docs/images/awake-remove-permission.png) |
-
-| Sleep normal | Lid-close sleep off |
-| --- | --- |
-| ![Awake off menu](docs/images/awake-off.png) | ![Awake on menu](docs/images/awake-on.png) |
 
 ## Use Cases
 
