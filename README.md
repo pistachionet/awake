@@ -1,7 +1,4 @@
 # Awake
-
-Close the lid. Keep the work running.
-
 [![Release](https://img.shields.io/github/v/release/pistachionet/awake?sort=semver)](https://github.com/pistachionet/awake/releases)
 [![macOS](https://img.shields.io/badge/macOS-13%2B-blue)](#install)
 [![Homebrew](https://img.shields.io/badge/Homebrew-tap-orange)](https://github.com/pistachionet/homebrew-awake)
