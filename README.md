@@ -7,9 +7,7 @@ Close the lid. Keep the work running.
 [![Homebrew](https://img.shields.io/badge/Homebrew-tap-orange)](https://github.com/pistachionet/homebrew-awake)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Awake is a tiny macOS menu bar app that keeps your MacBook awake while the lid is
-closed. It is built for long-running terminal jobs, downloads, syncs, local
-servers, and coding agent sessions that should not stop when you step away.
+A tiny macOS menu bar app that keeps your Mac awake while the lid is closed. Built for terminals, downloads, syncs, coding agents, and music. Like amphetamine app but not app store exclusive.
 
 <p align="center">
   <img src="docs/images/awake-demo.gif" alt="Awake demo" width="560">
